@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     librabbitmq-dev \
     libzip-dev \
-    libicu-dev
+    libicu-dev \
+    unzip
 
 RUN docker-php-ext-install pdo pdo_pgsql opcache intl zip
 RUN pecl install redis amqp && docker-php-ext-enable redis amqp

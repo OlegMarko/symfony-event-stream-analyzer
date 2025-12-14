@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    env.clickhouse_host: '%env(CLICKHOUSE_HOST)%'
+    env.clickhouse_port: '%env(int:CLICKHOUSE_PORT)%'
+    env.clickhouse_database: '%env(CLICKHOUSE_DATABASE)%'
+    env.clickhouse_user: '%env(CLICKHOUSE_USER)%'
+    env.clickhouse_password: '%env(CLICKHOUSE_PASSWORD)%'
 
 services:
     # default configuration for services in *this* file
@@ -19,6 +24,31 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    ClickHouseDB\Client:
+        arguments:
+            - host: '%env(CLICKHOUSE_HOST)%'
+              port: '%env(int:CLICKHOUSE_PORT)%'
+              database: '%env(CLICKHOUSE_DATABASE)%'
+              username: '%env(CLICKHOUSE_USER)%'
+              password: '%env(CLICKHOUSE_PASSWORD)%'
+        public: true
+
+    gelf.transport:
+        class: Gelf\Transport\UdpTransport
+        arguments:
+            - '%env(GRAYLOG_HOST)%'
+            - '%env(int:GRAYLOG_PORT)%'
+
+    gelf.publisher:
+        class: Gelf\Publisher
+        arguments:
+            - '@gelf.transport'
+
+    monolog.gelf_handler:
+        class: Monolog\Handler\GelfHandler
+        arguments:
+            - '@gelf.publisher'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

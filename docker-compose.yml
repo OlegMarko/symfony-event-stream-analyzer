@@ -36,6 +36,8 @@ services:
       POSTGRES_DB: app_db
       POSTGRES_USER: symfony
       POSTGRES_PASSWORD: '!change-me!'
+    ports:
+      - '5432:5432'
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -76,6 +78,9 @@ services:
     image: clickhouse/clickhouse-server:latest
     container_name: symfony_ch
     restart: always
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: pass
     ports:
       - '8123:8123'
 
@@ -105,7 +110,7 @@ services:
       GRAYLOG_WEB_ENDPOINT_URI: 'http://127.0.0.1:9000/api'
     ports:
       - '9000:9000'
-      - '5044:5044/udp'
+      - '12201:12201/udp'
     volumes:
       - graylog_data:/usr/share/graylog/data
     depends_on:
