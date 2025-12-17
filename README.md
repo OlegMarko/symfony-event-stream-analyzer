@@ -10,9 +10,14 @@
  - Graylog
 
 ## Services
- - Graylog: http://localhost:9000/welcome
- - ClickHouse: http://localhost:8123/dashboard
- - RabbitMq: http://localhost:15672
+Graylog: http://localhost:9000/welcome
+![graylog.png](_img/graylog.png)
+
+ClickHouse: http://localhost:8123/dashboard
+![clickhouse.png](_img/clickhouse.png)
+
+RabbitMq: http://localhost:15672
+![rabbitmq.png](_img/rabbitmq.png)
 
 ## Generate Event
 query

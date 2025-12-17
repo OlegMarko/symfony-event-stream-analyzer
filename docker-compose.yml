@@ -20,6 +20,7 @@ services:
   web:
     image: nginx:stable-alpine
     container_name: symfony_nginx
+    restart: always
     ports:
       - '80:80'
     volumes:
